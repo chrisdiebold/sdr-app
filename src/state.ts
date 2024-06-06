@@ -14,3 +14,10 @@ export const monitoring = {
   rx2: 'off' as Status,
   gps: 'off' as Status
 }
+
+export const formConstraints = {
+  name: {
+    min: 5,
+    max: 255,
+  }
+}

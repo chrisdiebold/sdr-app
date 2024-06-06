@@ -43,3 +43,9 @@ rux-global-status-bar {
   place-items: center;
   height: 100px;
 }
+
+/* TODO: Not Working! */
+.app-meta > .app-info-wrapper {
+ cursor: pointer !important;
+
+}

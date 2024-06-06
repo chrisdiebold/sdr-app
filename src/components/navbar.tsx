@@ -11,10 +11,10 @@ import {
 
 import { config } from "../state";
 import { useState } from "react";
-import { addToast } from "../util";
 import { Status } from "../types";
 
-import './navbar.css'
+import "./navbar.css";
+import { Link, useNavigate } from "react-router-dom";
 
 type Props = {
   appName: string;
@@ -32,6 +32,7 @@ type Props = {
 
 const Navbar = (props: Props) => {
   const [lightTheme, setLightTheme] = useState(props.theme === "Light");
+  const navigate = useNavigate();
 
   function menuSelect(e: CustomEvent) {
     const { detail } = e;
@@ -41,7 +42,8 @@ const Navbar = (props: Props) => {
       document.body.classList.toggle("light-theme");
       return;
     }
-    addToast("This feature has not been implemented", false, 3000);
+
+    // addToast("This feature has not been implemented", false, 3000);
   }
 
   return (
@@ -64,6 +66,12 @@ const Navbar = (props: Props) => {
             icon="apps"
           />
           <RuxMenu onRuxmenuselected={(e) => menuSelect(e)}>
+            <RuxMenuItem onClick={() => navigate("/")}>
+              {props.appName}
+            </RuxMenuItem>
+            <RuxMenuItem onClick={() => navigate("/tx-plot")}>
+              Transmit Power Spectrum Density Plot
+            </RuxMenuItem>
             <RuxMenuItem href="https://ttc-command-react.netlify.app/">
               TTC Command & Investigate
             </RuxMenuItem>
@@ -74,8 +82,8 @@ const Navbar = (props: Props) => {
             </RuxMenuItem>
           </RuxMenu>
         </RuxPopUp>
-        {/* <RuxClock /> */}
-          <div className="status-indicators" slot="right-side">
+        <div className="status-indicators" slot="right-side">
+          <Link to={"/tx-plot"}>
             <RuxMonitoringIcon
               status={props.status.tx1}
               icon="show-chart"
@@ -83,36 +91,37 @@ const Navbar = (props: Props) => {
               notifications={0}
               slot="trigger"
             ></RuxMonitoringIcon>
-
-            <RuxMonitoringIcon
-              status={props.status.tx2}
-              icon="show-chart"
-              label="TX 2"
-              notifications={0}
-              slot="trigger"
-            />
-            <RuxMonitoringIcon
-              status={props.status.rx1}
-              icon="antenna-receive"
-              label="RX 1"
-              notifications={0}
-              slot="trigger"
-            />
-            <RuxMonitoringIcon
-              status={props.status.rx2}
-              icon="antenna-receive"
-              label="RX 2"
-              notifications={0}
-              slot="trigger"
-            />
-            <RuxMonitoringIcon
-              status={props.status.gps}
-              icon="gps-fixed"
-              label="GPS"
-              notifications={0}
-              slot="trigger"
-            />
-          </div>
+          </Link>
+          <RuxMonitoringIcon
+            status={props.status.tx2}
+            icon="show-chart"
+            label="TX 2"
+            notifications={0}
+            slot="trigger"
+            onClick={() => navigate("/tx-plot")}
+          />
+          <RuxMonitoringIcon
+            status={props.status.rx1}
+            icon="antenna-receive"
+            label="RX 1"
+            notifications={0}
+            slot="trigger"
+          />
+          <RuxMonitoringIcon
+            status={props.status.rx2}
+            icon="antenna-receive"
+            label="RX 2"
+            notifications={0}
+            slot="trigger"
+          />
+          <RuxMonitoringIcon
+            status={props.status.gps}
+            icon="gps-fixed"
+            label="GPS"
+            notifications={0}
+            slot="trigger"
+          />
+        </div>
       </RuxGlobalStatusBar>
       <RuxToastStack />
     </>
